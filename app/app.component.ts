@@ -17,18 +17,17 @@ import { Component } from '@angular/core';
                    
                         <form class="navbar-form navbar-right">
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Login" (keyup.space)="onSpaceKeyup()">
+                                <input #login type="text" class="form-control" placeholder="Login" (keyup.space)="onSpaceKeyup()">
                             </div>
                             <div class="form-group">
                                 <input type="password" class="form-control">
                             </div>
                             <button type="button" class="btn btn-default"
-                            (click)="onButtonConnectClick($event)">Se connecter</button>
+                            (click)="onButtonConnectClick($event, login.value)">Se connecter</button>
                         </form>
                      </div>
                 </nav>
                 <p [hidden] = "isConnected">Bienvenu {{user?.name}}</p>
-                ....
                 <roomy-topfive>
                 </roomy-topfive>
 
@@ -42,9 +41,13 @@ export class RoomyAppComponent{
             return this.user == null;
         }
 
-        onButtonConnectClick(event){
+        onButtonConnectClick(event, name : string){
             console.log(event);
-            this.user = {name : 'Lounis'};
+            // name vas prendre directement la valeur de name retourné par l'evenement
+            // et vu que le nom de l'attribut user et le meme que le nom du parametre (name)
+            //on peut utilisé directement name
+            // on aurait pu utilisé login comme paramétre et => this.user = {name : login}
+            this.user = {name};
             event.stopPropagation();
 
         }
