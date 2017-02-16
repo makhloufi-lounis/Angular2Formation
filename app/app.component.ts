@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { NgSwitch } from '@angular/common/src/directives/ng_switch';
 import { Component } from '@angular/core';
 
@@ -9,37 +10,49 @@ import { Component } from '@angular/core';
                     <div class="container-fluid">
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav">
-                                <li><a href="#"></a></li>
-                                <li><a href="#"></a></li>
+                                <li><a href="#" routerLink="/home" routerLinkActive='active'>Home</a></li>
+                                <li><a href="#" routerLink="/rooms" routerLinkActive='active'>Les salles</a></li>
                                 <li><a href="#"></a></li>
                                 <li><a href="#"></a></li>
                             </ul>
-                        </div>
-                         <!-- Le ngSwitch est utilisé avec croché est pas étoile -->
-                       <div [ngSwitch]="isConnected" class="navbar-right">
-                            <form *ngSwitchCase="false" class="navbar-form navbar-right">
-                                <div class="form-group">
-                                    <input #login type="text" class="form-control" placeholder="Login" (keyup.space)="onSpaceKeyup()">
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" class="form-control">
-                                </div>
-                                <button type="button" class="btn btn-default"
-                                (click)="onButtonConnectClick($event, login.value)">Se connecter</button>
-                            </form>
-                            <!-- <p [hidden]="isConnected" >Bienvenu {{user?.name}}</p> -->
-                            <p *ngSwitchCase="true" >Bienvenu {{user?.name}}</p>
+                        
+                            <!-- Le ngSwitch est utilisé avec croché est pas étoile -->
+                           <div [ngSwitch]="isConnected" class="navbar-right">
+                                <form *ngSwitchCase="false" class="navbar-form navbar-right">
+                                    <div class="form-group">
+                                        <input #login type="text" class="form-control" placeholder="Login" (keyup.space)="onSpaceKeyup()">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" class="form-control">
+                                    </div>
+                                    <button type="button" class="btn btn-default"
+                                    (click)="onButtonConnectClick($event, login.value)">Se connecter</button>
+                                </form>
+                                <!-- <p [hidden]="isConnected" >Bienvenu {{user?.name}}</p> -->
+                                <p *ngSwitchCase="true" >Bienvenu {{user?.name}}</p>
+                            </div>
                         </div>
                     </div>
                 </nav>
-                <roomy-topfive>
-                </roomy-topfive>
-
-                `
+                <router-outlet></router-outlet>
+                <footer>
+                    <roomy-topfive>
+                    </roomy-topfive>
+                </footer>
+                <app-dialog></app-dialog>
+                `,
+    styles:['a.active{color:red!important;}']
 })
 export class RoomyAppComponent{
+
+    
         title:string = "Ronny chez Fusacq";
         user:any; // = {name:'Lounis'};
+
+
+        constructor(private router:Router){
+
+        }
 
         get isConnected(){
             return this.user != null;
@@ -53,7 +66,7 @@ export class RoomyAppComponent{
             // on aurait pu utilisé login comme paramétre et => this.user = {name : login}
             this.user = {name};
             event.stopPropagation();
-
+            this.router.navigate(['/home']);
         }
 
         onSpaceKeyup(){
