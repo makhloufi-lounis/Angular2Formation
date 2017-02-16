@@ -1,3 +1,4 @@
+import { NgSwitch } from '@angular/common/src/directives/ng_switch';
 import { Component } from '@angular/core';
 
 @Component({
@@ -14,20 +15,23 @@ import { Component } from '@angular/core';
                                 <li><a href="#"></a></li>
                             </ul>
                         </div>
-                   
-                        <form class="navbar-form navbar-right">
-                            <div class="form-group">
-                                <input #login type="text" class="form-control" placeholder="Login" (keyup.space)="onSpaceKeyup()">
-                            </div>
-                            <div class="form-group">
-                                <input type="password" class="form-control">
-                            </div>
-                            <button type="button" class="btn btn-default"
-                            (click)="onButtonConnectClick($event, login.value)">Se connecter</button>
-                        </form>
-                     </div>
+                         <!-- Le ngSwitch est utilisé avec croché est pas étoile -->
+                       <div [ngSwitch]="isConnected" class="navbar-right">
+                            <form *ngSwitchCase="false" class="navbar-form navbar-right">
+                                <div class="form-group">
+                                    <input #login type="text" class="form-control" placeholder="Login" (keyup.space)="onSpaceKeyup()">
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" class="form-control">
+                                </div>
+                                <button type="button" class="btn btn-default"
+                                (click)="onButtonConnectClick($event, login.value)">Se connecter</button>
+                            </form>
+                            <!-- <p [hidden]="isConnected" >Bienvenu {{user?.name}}</p> -->
+                            <p *ngSwitchCase="true" >Bienvenu {{user?.name}}</p>
+                        </div>
+                    </div>
                 </nav>
-                <p [hidden] = "isConnected">Bienvenu {{user?.name}}</p>
                 <roomy-topfive>
                 </roomy-topfive>
 
@@ -38,7 +42,7 @@ export class RoomyAppComponent{
         user:any; // = {name:'Lounis'};
 
         get isConnected(){
-            return this.user == null;
+            return this.user != null;
         }
 
         onButtonConnectClick(event, name : string){

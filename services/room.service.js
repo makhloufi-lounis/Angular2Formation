@@ -8,24 +8,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var room_service_1 = require("../services/room.service");
 var core_1 = require("@angular/core");
-var TopfiveComponent = (function () {
-    function TopfiveComponent(roomService) {
-        this.roomService = roomService;
-        this.rooms = [];
+var api_service_1 = require("./api.service");
+var RoomService = (function () {
+    function RoomService(apiService) {
+        this.apiService = apiService;
     }
-    TopfiveComponent.prototype.ngOnInit = function () {
-        this.rooms = this.roomService.getTopFive();
+    RoomService.prototype.getTopFive = function () {
+        //let rooms : Array<Room> = this.apiService.getRooms();
+        return this.apiService.getRooms();
     };
-    return TopfiveComponent;
+    return RoomService;
 }());
-TopfiveComponent = __decorate([
-    core_1.Component({
-        selector: 'roomy-topfive',
-        templateUrl: './app/topfive.component.html'
-    }),
-    __metadata("design:paramtypes", [room_service_1.RoomService])
-], TopfiveComponent);
-exports.TopfiveComponent = TopfiveComponent;
-//# sourceMappingURL=topfive.component.js.map
+RoomService = __decorate([
+    core_1.Injectable() // sert à dire que RoomService à lui mmeme des dépandances
+    ,
+    __metadata("design:paramtypes", [api_service_1.ApiService])
+], RoomService);
+exports.RoomService = RoomService;
+//# sourceMappingURL=room.service.js.map
