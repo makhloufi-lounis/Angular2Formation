@@ -16,7 +16,10 @@ var TopfiveComponent = (function () {
         this.rooms = [];
     }
     TopfiveComponent.prototype.ngOnInit = function () {
-        this.rooms = this.roomService.getTopFive();
+        var _this = this;
+        //this.roomService.getTopFive().subscribe(rooms => this.rooms)
+        this.roomService.getTopFive().subscribe(function (r) { return _this.rooms = r; });
+        console.log(this.rooms);
     };
     return TopfiveComponent;
 }());

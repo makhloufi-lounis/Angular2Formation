@@ -10,13 +10,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var api_service_1 = require("./api.service");
+require("rxjs/add/operator/retry");
 var RoomService = (function () {
     function RoomService(apiService) {
         this.apiService = apiService;
     }
     RoomService.prototype.getTopFive = function () {
         //let rooms : Array<Room> = this.apiService.getRooms();
-        return this.apiService.getRooms();
+        return this.apiService.getRooms().retry(3);
     };
     return RoomService;
 }());

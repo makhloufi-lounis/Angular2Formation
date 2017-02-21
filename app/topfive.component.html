@@ -1,11 +1,14 @@
 <!-- Dans le cas d'une div on utilise plutot *ngIf au lieu de [ngIf]-->
+
 <template [ngIf]="rooms.length > 0">
     <h3> Top 5 des salles louées </h3>
     <div class="row">
         <!-- le i peut prendre {first, last, old}-->
-        <div *ngFor="let room of rooms; let i=index" class="col-md-2 bg-info text-center">
-            <p> {{i + 1}} - {{room.name}} </p>
-            <img src="{{room.image}}" class="img-thumbnail" />
+        <div *ngFor="let room of rooms | slice:0:5; let i=index" class="col-md-2 bg-info text-center">
+            <p> {{i + 1}} - {{room.Name | uppercase}} </p>
+            <img src="{{room.Image}}" class="img-thumbnail" />
+            <p>{{room.Price | number:'.2'}}</p>
+            <p>{{room.Price | currency:'EUR'}}</p>
         </div>
     </div>
 </template>

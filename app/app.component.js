@@ -14,6 +14,8 @@ var RoomyAppComponent = (function () {
     function RoomyAppComponent(router) {
         this.router = router;
         this.title = "Ronny chez Fusacq";
+        this.showDialog = false;
+        this.textDialog = "";
     }
     Object.defineProperty(RoomyAppComponent.prototype, "isConnected", {
         get: function () {
@@ -35,13 +37,22 @@ var RoomyAppComponent = (function () {
     RoomyAppComponent.prototype.onSpaceKeyup = function () {
         console.log(this.user.name);
     };
+    RoomyAppComponent.prototype.showDialogMessage = function (message) {
+        this.textDialog = message;
+        if (this.showDialog == false) {
+            this.showDialog = true;
+        }
+        else {
+            this.showDialog = false;
+        }
+    };
     return RoomyAppComponent;
 }());
 RoomyAppComponent = __decorate([
     core_1.Component({
         selector: 'roomy-app',
         //Le ? pour dire user est optionnelle (operateur de navigateur securisé)
-        template: "<h1>Formation Angular - {{title}}</h1>\n                <nav class=\"navbar navbar-default navbar-static-top\">\n                    <div class=\"container-fluid\">\n                        <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n                            <ul class=\"nav navbar-nav\">\n                                <li><a href=\"#\" routerLink=\"/home\" routerLinkActive='active'>Home</a></li>\n                                <li><a href=\"#\" routerLink=\"/rooms\" routerLinkActive='active'>Les salles</a></li>\n                                <li><a href=\"#\"></a></li>\n                                <li><a href=\"#\"></a></li>\n                            </ul>\n                        \n                            <!-- Le ngSwitch est utilis\u00E9 avec croch\u00E9 est pas \u00E9toile -->\n                           <div [ngSwitch]=\"isConnected\" class=\"navbar-right\">\n                                <form *ngSwitchCase=\"false\" class=\"navbar-form navbar-right\">\n                                    <div class=\"form-group\">\n                                        <input #login type=\"text\" class=\"form-control\" placeholder=\"Login\" (keyup.space)=\"onSpaceKeyup()\">\n                                    </div>\n                                    <div class=\"form-group\">\n                                        <input type=\"password\" class=\"form-control\">\n                                    </div>\n                                    <button type=\"button\" class=\"btn btn-default\"\n                                    (click)=\"onButtonConnectClick($event, login.value)\">Se connecter</button>\n                                </form>\n                                <!-- <p [hidden]=\"isConnected\" >Bienvenu {{user?.name}}</p> -->\n                                <p *ngSwitchCase=\"true\" >Bienvenu {{user?.name}}</p>\n                            </div>\n                        </div>\n                    </div>\n                </nav>\n                <router-outlet></router-outlet>\n                <footer>\n                    <roomy-topfive>\n                    </roomy-topfive>\n                </footer>\n                <app-dialog></app-dialog>\n                ",
+        template: "<h1>Formation Angular - {{title}}</h1>\n                <nav class=\"navbar navbar-default navbar-static-top\">\n                    <div class=\"container-fluid\">\n                        <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n                            <ul class=\"nav navbar-nav\">\n                                <li><a href=\"#\" routerLink=\"/home\" routerLinkActive='active'>Home</a></li>\n                                <li><a href=\"#\" routerLink=\"/rooms\" routerLinkActive='active'>Les salles</a></li>\n                                 \n                                <li><a href=\"\" routerLink=\"/user/create\">Cr\u00E9er un compte </a></li>\n                                <li><a href=\"#\"></a></li>\n                            </ul>\n                        \n                            <!-- Le ngSwitch est utilis\u00E9 avec croch\u00E9 est pas \u00E9toile -->\n                           <div [ngSwitch]=\"isConnected\" class=\"navbar-right\">\n                               <div *ngSwitchCase=\"false\">\n                                    <form class=\"navbar-form navbar-right\">\n                                        <div class=\"form-group\">\n                                            <input #login type=\"text\" class=\"form-control\" placeholder=\"Login\" (keyup.space)=\"onSpaceKeyup()\">\n                                        </div>\n                                        <div class=\"form-group\">\n                                            <input type=\"password\" class=\"form-control\">\n                                        </div>\n                                        <button type=\"button\" class=\"btn btn-default\"\n                                        (click)=\"onButtonConnectClick($event, login.value)\">Se connecter</button>\n                                    </form>\n                                   \n                                </div>\n                                <!-- <p [hidden]=\"isConnected\" >Bienvenu {{user?.name}}</p> -->\n                                <p *ngSwitchCase=\"true\" >Bienvenu {{user?.name}}</p>\n                            </div>\n                        </div>\n                    </div>\n                </nav>\n                <router-outlet></router-outlet>\n                <footer>\n                    <roomy-topfive>\n                    </roomy-topfive>\n                </footer>\n                <app-dialog [visible]=showDialog>\n                    {{textDialog}}\n                </app-dialog>\n                <br/>\n                <button (click)=\"showDialogMessage('Test text dialog')\">Show Dialog</button>\n                ",
         styles: ['a.active{color:red!important;}']
     }),
     __metadata("design:paramtypes", [router_1.Router])

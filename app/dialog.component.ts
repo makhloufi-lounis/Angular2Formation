@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { EventEmitter } from '@angular/common/src/facade/async';
+import { Component, Input, Output } from '@angular/core';
 
 
 @Component({
@@ -6,6 +7,7 @@ import { Component } from '@angular/core';
     template: `
                 <div *ngIf="visible" class="dialog">
                    <h1>Boite de dialog</h1>
+                   <ng-content></ng-content>
                    <button aria-label="Close" class="dialog-close-btn">x</button> 
                 </div>
                 <div *ngIf="visible" class="overlay">
@@ -42,7 +44,6 @@ import { Component } from '@angular/core';
            right:8px;
            font-size: 1.2em;
         }
-
         .overlay{
             position:fixed;
             top:0;
@@ -55,11 +56,19 @@ import { Component } from '@angular/core';
     `]
 })
 
-export class DialogComponent{
+//(click)="close()"
 
+export class DialogComponent{
+    @Input() //Permet d'indiquez que cette attribut est accessible de l'exterieur avec la syntax [visible]="valeur"
     visible : boolean = true;
 
-    constructor(){
-        
-    }
+    /*@Output()
+    closed: EventEmitter<boolean> = new EventEmitter<boolean>();*/
+
+    constructor(){}
+
+    /*close(){
+        this.visible = false;
+       //this.closed.emit(this.visible)
+    }*/
 }
